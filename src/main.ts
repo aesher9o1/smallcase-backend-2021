@@ -25,7 +25,7 @@ const bootstrap = () => {
         const swaggerDoc = SwaggerModule.createDocument(app, swaggerConfig)
         SwaggerModule.setup('api/system/docs', app, swaggerDoc)
 
-        app.listen(process.env.PORT || 3001).then(() => {
+        app.listen(process.env.PORT || 3001, '0.0.0.0').then(() => {
           app
             .getUrl()
             .then((url: string) => resolve(true))
