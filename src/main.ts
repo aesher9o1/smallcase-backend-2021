@@ -11,11 +11,10 @@ import { ValidationPipe } from '@nestjs/common'
 
 const bootstrap = () => {
   return new Promise<boolean>((resolve, reject) => {
-    const port: number = _.toNumber(process.env.PORT)
-
     NestFactory.create<NestFastifyApplication>(AppModule, new QuillFastifyAdapter().get())
       .then((app) => {
         app.setGlobalPrefix('/api')
+        app.enableCors()
         app.useGlobalPipes(
           new ValidationPipe({
             transform: true
@@ -26,7 +25,7 @@ const bootstrap = () => {
         const swaggerDoc = SwaggerModule.createDocument(app, swaggerConfig)
         SwaggerModule.setup('api/system/docs', app, swaggerDoc)
 
-        app.listen(port).then(() => {
+        app.listen(process.env.PORT || 3001).then(() => {
           app
             .getUrl()
             .then((url: string) => resolve(true))
